@@ -116,7 +116,7 @@ public class  indoorLocatorClient {
     private static final int MAX_RESULTS = 3;
 
     private final Context context;
-    private final Map<String, Integer> dic = new HashMap<>();
+    private final Map<String, String> dic = new HashMap<>();
     private final List<String> labels = new ArrayList<>();
     private Interpreter tflite;
 
@@ -180,7 +180,7 @@ public class  indoorLocatorClient {
     }
 
     /** Load the TF Lite model and dictionary so that the client can start classifying text. */
-    @MainThread
+    @WorkerThread
     public void load() {
         loadModel();
         loadDictionary();
@@ -259,8 +259,9 @@ public class  indoorLocatorClient {
 
         for (int i = 0; i < dicList.size(); i++){
             for (int j=0; j < dicList.size(); j++){
+                System.out.print("I am here  "+ j);
                 String wapnumber = (dic.get(dicList.get(j))).toString();
-                int number = Integer.parseInt(String.valueOf(wapnumber.replace("wap","")));
+                int number = Integer.parseInt(wapnumber.replace("WAP",""));
                 if (number == i){
                     if (bssidL.contains(dicList.get(j)) == true){
                         int rssiValue = Integer.parseInt(String.valueOf(rssiL.get((bssidL.indexOf(dicList.get(j))))));
@@ -325,7 +326,7 @@ public class  indoorLocatorClient {
                 if (line.size() < 3) {
                     continue;
                 }
-                dic.put(line.get(1), Integer.parseInt(line.get(2)));
+                dic.put(line.get(1), (line.get(2)));
             }
         }
     }
@@ -353,7 +354,7 @@ public class  indoorLocatorClient {
         return ans;
     }*/
 
-    Map<String, Integer> getDic() {
+    Map<String, String> getDic() {
         return this.dic;
     }
 

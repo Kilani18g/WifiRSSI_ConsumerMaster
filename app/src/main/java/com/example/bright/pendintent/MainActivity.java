@@ -74,7 +74,6 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        client.load();
         setContentView(R.layout.activity_main);
         wifiManager = (WifiManager) getApplicationContext().getSystemService(WIFI_SERVICE);
         scannedResult = new ArrayList();
@@ -97,6 +96,7 @@ public class MainActivity extends AppCompatActivity {
         client = new indoorLocatorClient(getApplicationContext());
         handler = new Handler();
         Button predictButton = findViewById(R.id.button);
+
         predictButton.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 boolean b = ((WifiManager) getSystemService(WIFI_SERVICE)).startScan();
@@ -119,7 +119,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
 
-    /*@Override
+    @Override
     protected void onStart() {
         super.onStart();
         Log.v(TAG, "onStart");
@@ -139,7 +139,7 @@ public class MainActivity extends AppCompatActivity {
                 });
     }
 
-    private void classify(final String text) {
+    /*private void classify(final String text) {
         handler.post(
                 () -> {
                     // Run text classification with TF Lite.

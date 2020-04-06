@@ -1,32 +1,32 @@
-,aa:40:a0:6d:82:57,WAP0\
-khalifa1,14:a5:1a:03:4b:f8,WAP1\
-OQFibre-X69GDQX,84:47:65:f1:69:94,WAP2\
-,c6:a5:11:3d:12:82,WAP3\
-TV_p2p,1e:1e:e3:0c:2a:7a,WAP4\
-Ooredoo_4G_429C,10:da:43:5c:42:9c,WAP5\
-home faisal,7e:d2:94:57:af:d4,WAP6\
-Abu Shaikha,c2:a5:11:3d:15:57,WAP7\
-NETGEAR03,e4:f4:c6:41:79:e8,WAP8\
-OQFibre-UJEX69A,24:09:95:43:f5:44,WAP9\
-Hindi,c8:3a:35:3a:2c:31,WAP10\
-alturki1006,c8:d7:19:31:d7:21,WAP11\
-,c6:a5:11:3d:15:57,WAP12\
-Linksys03608,58:ef:68:0d:b6:10,WAP13\
-Deathstar,14:91:82:a9:e0:d5,WAP14\
-,32:80:88:f6:47:61,WAP15\
-MV26824590,20:32:33:06:e7:e4,WAP16\
-Kilani1,74:da:88:8e:43:09,WAP17\
-AMA,a6:40:a0:6d:82:57,WAP18\
-,82:d2:94:57:af:d4,WAP19\
-AMA,2e:80:88:f6:47:61,WAP20\
-Abu Shaikha,c2:a5:11:3d:12:82,WAP21\
-BrownWiFiManCave,64:a5:c3:65:c3:f6,WAP22\
-,1a:91:82:a9:e0:d5,WAP23\
-Mindi,60:38:e0:d6:18:e9,WAP24\
-khalifa,92:3b:ad:a9:04:6c,WAP25\
-Zliten17,cc:32:e5:76:a3:b2,WAP26\
-ALI,7c:11:cb:e5:aa:44,WAP27\
-,96:3b:ad:a9:04:6c,WAP28\
-Kilani,b0:4e:26:4b:20:c7,WAP29\
-Mindi,cc:2d:21:1e:94:20,WAP30\
+,aa:40:a0:6d:82:57,WAP0
+khalifa1,14:a5:1a:03:4b:f8,WAP1
+OQFibre-X69GDQX,84:47:65:f1:69:94,WAP2
+,c6:a5:11:3d:12:82,WAP3
+TV_p2p,1e:1e:e3:0c:2a:7a,WAP4
+Ooredoo_4G_429C,10:da:43:5c:42:9c,WAP5
+home faisal,7e:d2:94:57:af:d4,WAP6
+Abu Shaikha,c2:a5:11:3d:15:57,WAP7
+NETGEAR03,e4:f4:c6:41:79:e8,WAP8
+OQFibre-UJEX69A,24:09:95:43:f5:44,WAP9
+Hindi,c8:3a:35:3a:2c:31,WAP10
+alturki1006,c8:d7:19:31:d7:21,WAP11
+,c6:a5:11:3d:15:57,WAP12
+Linksys03608,58:ef:68:0d:b6:10,WAP13
+Deathstar,14:91:82:a9:e0:d5,WAP14
+,32:80:88:f6:47:61,WAP15
+MV26824590,20:32:33:06:e7:e4,WAP16
+Kilani1,74:da:88:8e:43:09,WAP17
+AMA,a6:40:a0:6d:82:57,WAP18
+,82:d2:94:57:af:d4,WAP19
+AMA,2e:80:88:f6:47:61,WAP20
+Abu Shaikha,c2:a5:11:3d:12:82,WAP21
+BrownWiFiManCave,64:a5:c3:65:c3:f6,WAP22
+,1a:91:82:a9:e0:d5,WAP23
+Mindi,60:38:e0:d6:18:e9,WAP24
+khalifa,92:3b:ad:a9:04:6c,WAP25
+Zliten17,cc:32:e5:76:a3:b2,WAP26
+ALI,7c:11:cb:e5:aa:44,WAP27
+,96:3b:ad:a9:04:6c,WAP28
+Kilani,b0:4e:26:4b:20:c7,WAP29
+Mindi,cc:2d:21:1e:94:20,WAP30
 }
