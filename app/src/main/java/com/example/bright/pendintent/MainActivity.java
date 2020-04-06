@@ -75,6 +75,7 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        textView = findViewById(R.id.textView2);
         wifiManager = (WifiManager) getApplicationContext().getSystemService(WIFI_SERVICE);
         scannedResult = new ArrayList();
         apName = new ArrayList();
@@ -91,32 +92,227 @@ public class MainActivity extends AppCompatActivity {
         int k = 0;
 
         Log.v(TAG, "onCreate");
-
-
         client = new indoorLocatorClient(getApplicationContext());
         handler = new Handler();
         Button predictButton = findViewById(R.id.button);
 
-        predictButton.setOnClickListener(new View.OnClickListener() {
+        /*predictButton.setOnClickListener(
+                (View v) -> {
+                    doProcess(null);
+                    System.out.print(macAddress);
+                    //client.locate(macAddress,rSsi);
+                    resultTextView = findViewById(R.id.textView);
+                });*/
+
+        /*predictButton.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 boolean b = ((WifiManager) getSystemService(WIFI_SERVICE)).startScan();
                 List<ScanResult> scanResultList = wifiManager.getScanResults();
-
                 for (int i = 0; i < scanResultList.size(); i++) {
                     if (scanResultList.get(i).frequency < 2600) {
                         macAddress.add(scanResultList.get(i).BSSID + "\n");
                         rSsi.add(scanResultList.get(i).level + "\n");
-                        System.out.print("I am here ");
                     }
                 }
+                System.out.print(macAddress);
                 client.locate(macAddress,rSsi);
                 resultTextView = findViewById(R.id.textView);
             }
-        });
+        });*/
 
 
-        resultTextView = findViewById(R.id.textView);
+        //resultTextView = findViewById(R.id.textView);
     }
+    static Map<String, List> apNamebssid = new HashMap<String, List>();
+    static Map<String, List<Integer>> bSsidrssi = new HashMap<String, List<Integer>>();
+    static StringBuilder data = new StringBuilder();
+
+    public void doProcess(View view) {
+        if (scannedResult.size() > 0) {
+            scannedResult.clear();
+        }
+        data.setLength(0);
+        mAddr.clear();
+        apName.clear();
+        macAddress.clear();
+        rSsi.clear();
+        boolean b = ((WifiManager) getSystemService(WIFI_SERVICE)).startScan();
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M && checkSelfPermission(Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+            requestPermissions(new String[]{Manifest.permission.ACCESS_COARSE_LOCATION},
+                    1);
+
+            if (wifiManager.isWifiEnabled()) {
+                Toast.makeText(getApplicationContext(), "on", Toast.LENGTH_SHORT).show();
+                new AsyncTask<Void, String, String>() {
+                    @Override
+                    protected String doInBackground(Void... voids) {
+                        List<ScanResult> scanResultList = wifiManager.getScanResults();
+                        for (int i = 0; i < scanResultList.size(); i++) {
+
+                            scannedResult.add(scanResultList.get(i).SSID + "\n");
+                            scannedResult.add(scanResultList.get(i).BSSID + "\n");
+                            scannedResult.add(scanResultList.get(i).level + "\n");
+
+                        }
+                        return scannedResult.toString();
+                    }
+
+                    @Override
+                    protected void onPostExecute(String s) {
+                        textView.setText(s);
+                    }
+                }.execute();
+            } else {
+                wifiManager.setWifiEnabled(false);
+                new AsyncTask<Void, String, String>() {
+                    @Override
+                    protected String doInBackground(Void... voids) {
+                        List<ScanResult> scanResultList = wifiManager.getScanResults();
+                        for (int i = 0; i < scanResultList.size(); i++) {
+                            scannedResult.add(scanResultList.get(i).SSID + "\n");
+                            scannedResult.add(scanResultList.get(i).BSSID + "\n");
+                            scannedResult.add(scanResultList.get(i).level + "\n");
+                            System.out.print("I am here ");
+                        }
+                        return scannedResult.toString();
+                    }
+
+                    @Override
+                    protected void onPostExecute(String s) {
+                        textView.setText(s);
+                    }
+                }.execute();
+            }
+        } else {
+            if (wifiManager.isWifiEnabled()) {
+                Toast.makeText(getApplicationContext(), "Scan Is Done!!", Toast.LENGTH_SHORT).show();
+                new AsyncTask<Void, String, String>() {
+                    @Override
+                    protected String doInBackground(Void... voids) {
+
+                        List<ScanResult> scanResultList = wifiManager.getScanResults();
+                        for (int i = 0; i < scanResultList.size(); i++) {
+                            scannedResult.add(scanResultList.get(i).SSID + "\n");
+                            scannedResult.add(scanResultList.get(i).BSSID + "\n");
+                            scannedResult.add(scanResultList.get(i).level + "\n");
+                            macAddress.add(scanResultList.get(i).BSSID);
+                            rSsi.add(scanResultList.get(i).level);
+                        }
+
+                        System.out.print(macAddress);
+                        System.out.print(rSsi);
+
+                        //List brssi = bSsidrssi.keySet();
+
+                        List brssi = new ArrayList();
+                        //System.out.print(brssi + "I am here345    ");
+                        brssi.addAll(bSsidrssi.keySet());
+                        //System.out.print("\n"+bSsidrssi+"\n");
+                        //TRYING COMPARING THE LIST
+                        //System.out.print(brssi.get(0) + "  nigga \n");
+                        List sAme = new ArrayList();
+                        for (int i = 0; i < brssi.size(); i++) {
+                            boolean srL = mAddr.contains(brssi.get(i)) == false;
+                            boolean uk = false;
+                            System.out.print("\n" + srL + "," + uk + "\n");
+                            //System.out.print(brssi.get(i));
+                            //The problem here is it keeps invoking function of if statement even when false
+                            if ((mAddr.contains(brssi.get(i)) == false)) {
+                                bSsidrssi.get(brssi.get(i)).add(-150);
+                                sAme.add(brssi.get(i));
+                                //return scannedResult.toString();
+                                //System.out.print("\n I am hereeeeee \n");
+                            }
+
+
+                        }
+
+                        //I am running the model over here
+                        client.load();
+                        //client.locate(macAddress, rSsi);
+                        System.out.print("\n"+k +"\n");
+                        System.out.print("\n"+bSsidrssi +"\n");
+                        outPut+="1";
+                        System.out.print(outPut+"\n");
+                        return scannedResult.toString();
+
+                    }
+
+                    @Override
+                    protected void onPostExecute(String s) {
+                        textView.setText(s);
+                        //System.out.print(scannedResult);
+                    }
+                }.execute();
+            } else {
+                wifiManager.setWifiEnabled(true);
+                new AsyncTask<Void, String, String>() {
+                    @Override
+                    protected String doInBackground(Void... voids) {
+                        List<ScanResult> scanResultList = wifiManager.getScanResults();
+                        for (int i = 0; i < scanResultList.size(); i++) {
+                            scannedResult.add(scanResultList.get(i).SSID + "\n");
+                            scannedResult.add(scanResultList.get(i).BSSID + "\n");
+                            scannedResult.add(scanResultList.get(i).level + "\n");
+                        }
+                        return scannedResult.toString();
+                    }
+
+                    @Override
+                    protected void onPostExecute(String s) {
+                        textView.setText(s);
+                    }
+                }.execute();
+            }
+        }
+    }
+    //public void
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, String[] permissions,
+                                           int[] grantResults) {
+        if (requestCode == 1
+                && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+            if (wifiManager.isWifiEnabled()) {
+                textView.setText("");
+                new AsyncTask<Void, String, String>() {
+                    @Override
+                    protected String doInBackground(Void... voids) {
+                        List<ScanResult> scanResultList = wifiManager.getScanResults();
+                        for (int i = 0; i < scanResultList.size(); i++) {
+                            scannedResult.add(scanResultList.get(i).SSID + "\n");
+                        }
+                        return scannedResult.toString();
+                    }
+
+                    @Override
+                    protected void onPostExecute(String s) {
+                        textView.setText(s);
+                    }
+                }.execute();
+            } else {
+                wifiManager.setWifiEnabled(true);
+                new AsyncTask<Void, String, String>() {
+                    @Override
+                    protected String doInBackground(Void... voids) {
+                        List<ScanResult> scanResultList = wifiManager.getScanResults();
+                        for (int i = 0; i < scanResultList.size(); i++) {
+                            scannedResult.add(scanResultList.get(i).SSID + "\n");
+                        }
+                        return scannedResult.toString();
+                    }
+
+                    @Override
+                    protected void onPostExecute(String s) {
+                        textView.setText(s);
+                    }
+                }.execute();
+            }
+        }
+
+    }
+
+
 
 
     @Override

@@ -233,8 +233,9 @@ public class  indoorLocatorClient {
 
 
     @WorkerThread
-    public synchronized List<Result> locate(List<String> bssidlists, List<Integer> rssiValues){
+    public synchronized List<Result> locate(List<String> bssidlists, List<String> rssiValues){
         //get data
+        System.out.print("I am in the locate method");
         List bssidL, rssiL, dicList, input, myLoc;
         bssidL = new ArrayList();
         rssiL = new ArrayList();
@@ -275,7 +276,9 @@ public class  indoorLocatorClient {
         // Run inference.
         Log.v(TAG, "Locating with TF Lite...");
         float[][] output = new float[1][labels.size()];
+        System.out.print("I am in the locate method");
         tflite.run(input, output);
+        System.out.print("\n I think I just ran the model");
 
         final ArrayList<Result> results = new ArrayList<>();
         for (int i = 0; i < labels.size(); i++) {
