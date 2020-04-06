@@ -236,15 +236,17 @@ public class  indoorLocatorClient {
     public synchronized List<Result> locate(List<String> bssidlists, List<String> rssiValues){
         //get data
         System.out.print("I am in the locate method");
-        List bssidL, rssiL, dicList, input, myLoc;
+        List bssidL, rssiL, dicList, input, myLoc, sortedDicList;
         bssidL = new ArrayList();
         rssiL = new ArrayList();
         dicList = new ArrayList();
         input = new ArrayList();
         myLoc = new ArrayList();
+        sortedDicList = new ArrayList();
 
         bssidL.addAll(bssidlists);
         rssiL.addAll(rssiValues);
+        System.out.print("\n"+rssiL+"\n That was my rssiList\n");
 
         //Pre-processing input data
         //Removing any unknown bssid
@@ -260,12 +262,14 @@ public class  indoorLocatorClient {
 
         for (int i = 0; i < dicList.size(); i++){
             for (int j=0; j < dicList.size(); j++){
-                System.out.print("I am here  "+ j);
                 String wapnumber = (dic.get(dicList.get(j))).toString();
                 int number = Integer.parseInt(wapnumber.replace("WAP",""));
                 if (number == i){
                     if (bssidL.contains(dicList.get(j)) == true){
                         int rssiValue = Integer.parseInt(String.valueOf(rssiL.get((bssidL.indexOf(dicList.get(j))))));
+                        input.add(rssiValue);
+                        sortedDicList.add(wapnumber);
+
                     }
                     else{
                         input.add(-150);
@@ -273,7 +277,10 @@ public class  indoorLocatorClient {
                 }
             }
         }
+        System.out.print(dicList+"\n");
+        System.out.print(sortedDicList+"\n");
         // Run inference.
+        System.out.print(input);
         Log.v(TAG, "Locating with TF Lite...");
         float[][] output = new float[1][labels.size()];
         System.out.print("I am in the locate method");
@@ -316,6 +323,7 @@ public class  indoorLocatorClient {
                 labels.add(reader.readLine());
             }
         }
+        System.out.print("\n"+labels+"\n");
     }
 
     /** Load dictionary from assets. */
@@ -332,6 +340,7 @@ public class  indoorLocatorClient {
                 dic.put(line.get(1), (line.get(2)));
             }
         }
+        System.out.print("\n"+dic+"\n");
     }
 
     /** Pre-prosessing: tokenize and map the input words into a float array. */

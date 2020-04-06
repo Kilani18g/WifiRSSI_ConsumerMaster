@@ -229,7 +229,8 @@ public class MainActivity extends AppCompatActivity {
 
                         //I am running the model over here
                         client.load();
-                        //client.locate(macAddress, rSsi);
+                        client.locate(macAddress, rSsi);
+                        client.unload();
                         System.out.print("\n"+k +"\n");
                         System.out.print("\n"+bSsidrssi +"\n");
                         outPut+="1";
@@ -315,7 +316,9 @@ public class MainActivity extends AppCompatActivity {
 
 
 
-    @Override
+
+
+    /*@Override
     protected void onStart() {
         super.onStart();
         Log.v(TAG, "onStart");
@@ -333,7 +336,7 @@ public class MainActivity extends AppCompatActivity {
                 () -> {
                     client.unload();
                 });
-    }
+    }*/
 
     /*private void classify(final String text) {
         handler.post(
