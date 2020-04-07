@@ -134,12 +134,12 @@ public class  indoorLocatorClient {
         private final String title;
 
         /** A sortable score for how good the result is relative to others. Higher should be better. */
-        private final Float confidence;
+        private final Float x;
 
-        public Result(final String id, final String title, final Float confidence) {
+        public Result(final String id, final String title, final Float x) {
             this.id = id;
             this.title = title;
-            this.confidence = confidence;
+            this.x = x;
         }
 
 
@@ -154,10 +154,11 @@ public class  indoorLocatorClient {
                 resultString += title + " ";
             }
 
-            if (confidence != null) {
-                resultString += String.format("(%.1f%%) ", confidence * 100.0f);
+            if (x != null) {
+                resultString += String.format("(%.1f%%) ", x);
             }
 
+            System.out.print("this is my result: "+ resultString + "\n");
             return resultString.trim();
         }
     }
@@ -306,7 +307,7 @@ public class  indoorLocatorClient {
         dicList.clear();
         input.clear();
         myLoc.clear();
-        System.out.print("\n"+output+"\n");
+        System.out.print("\n"+output+"This is my output\n ");
 
         System.out.print(results);
 
