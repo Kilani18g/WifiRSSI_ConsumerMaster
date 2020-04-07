@@ -60,7 +60,7 @@ public class MainActivity extends AppCompatActivity {
     WifiManager wifiManager;
     List scannedResult, apName, mAddr, missingrSsi, rSsi, brssi, timeStamp, xlist, ylist, macAddress, modelInput;
     int x, y, k, lvl, size;
-    String xcoordinate, ycoordinate, outPut;
+    String xcoordinate, ycoordinate, outPut,modelPrediciton;
     TextView textView;
 
     private static final String TAG = "indoorLocatorDemo";
@@ -228,20 +228,15 @@ public class MainActivity extends AppCompatActivity {
                         }
 
                         //I am running the model over here
-                        client.load();
-                        client.locate(macAddress, rSsi);
-                        client.unload();
-                        System.out.print("\n"+k +"\n");
-                        System.out.print("\n"+bSsidrssi +"\n");
+                        modelPrediciton=(client.locate(macAddress, rSsi)).toString();
                         outPut+="1";
-                        System.out.print(outPut+"\n");
                         return scannedResult.toString();
 
                     }
 
                     @Override
                     protected void onPostExecute(String s) {
-                        textView.setText(s);
+                        textView.setText("Prediction = "+modelPrediciton +"\n"+ s);
                         //System.out.print(scannedResult);
                     }
                 }.execute();
@@ -318,7 +313,7 @@ public class MainActivity extends AppCompatActivity {
 
 
 
-    /*@Override
+    @Override
     protected void onStart() {
         super.onStart();
         Log.v(TAG, "onStart");
@@ -336,7 +331,7 @@ public class MainActivity extends AppCompatActivity {
                 () -> {
                     client.unload();
                 });
-    }*/
+    }
 
     /*private void classify(final String text) {
         handler.post(

@@ -121,7 +121,6 @@ public class  indoorLocatorClient {
     private Interpreter tflite;
 
 
-
     //MainActivity mActivity;
     /** An immutable result returned by a TextClassifier describing what was classified. */
     public static class Result {
@@ -233,6 +232,7 @@ public class  indoorLocatorClient {
         myLoc = new ArrayList();
         sortedDicList = new ArrayList();
 
+
         bssidL.addAll(bssidlists);
         rssiL.addAll(rssiValues);
         System.out.print("\n"+rssiL+"\n That was my rssiList\n");
@@ -273,6 +273,7 @@ public class  indoorLocatorClient {
         System.out.print(input);
         Log.v(TAG, "Locating with TF Lite...");
         float[][] correctInput = new float[1][dicList.size()];
+        System.out.print("\n"+dicList.size()+"nigga \n");
         //gad is variable name for rssi value that are stored in the "input" array list.
         //Here we are converting to int array as the tflite only accepts int data type.
         for (int i=0; i<dicList.size(); i++){
@@ -294,16 +295,24 @@ public class  indoorLocatorClient {
             results.add(new Result("" + i, labels.get(i), output[0][i]));
         }
 
+        /*final ArrayList<String> outCome = new ArrayList<>();
+        for (int i = 0; i < labels.size(); i++) {
+            results.add(labels.get(i).toString(), output[0][i]);
+        }*/
+
+
         bssidL.clear();
         rssiL.clear();
         dicList.clear();
         input.clear();
         myLoc.clear();
+        System.out.print("\n"+output+"\n");
 
         System.out.print(results);
 
         return results;
     }
+
 
 
 
