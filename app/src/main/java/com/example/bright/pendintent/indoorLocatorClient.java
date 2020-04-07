@@ -143,17 +143,6 @@ public class  indoorLocatorClient {
             this.confidence = confidence;
         }
 
-        public String getId() {
-            return id;
-        }
-
-        public String getTitle() {
-            return title;
-        }
-
-        public Float getConfidence() {
-            return confidence;
-        }
 
         @Override
         public String toString() {
@@ -273,43 +262,45 @@ public class  indoorLocatorClient {
                     }
                     else{
                         input.add(-150);
+                        sortedDicList.add(wapnumber);
                     }
                 }
             }
         }
-        System.out.print(dicList+"\n");
+        //System.out.print(dicList+"\n");
         System.out.print(sortedDicList+"\n");
         // Run inference.
         System.out.print(input);
         Log.v(TAG, "Locating with TF Lite...");
-        int size = dicList.size();
-        int [] correctInput = new int[size];
-
+        float[][] correctInput = new float[1][dicList.size()];
         //gad is variable name for rssi value that are stored in the "input" array list.
         //Here we are converting to int array as the tflite only accepts int data type.
         for (int i=0; i<dicList.size(); i++){
-            int gad = input.get(i).intValue();
+            float gad = (input.get(i)).floatValue();
             System.out.print(gad);
-            correctInput[i]= gad;
+            correctInput[0][i]= gad;
+            //System.out.print(Arrays.toString(correctInput));
         }
-
+        System.out.print("\n"+Arrays.toString(correctInput)+"\n");
         //setup the output
-        float[][] output = new float[0][labels.size()];
+        float[][] output = new float[1][labels.size()];
         System.out.print("I am in the locate method");
         //run the model
         tflite.run(correctInput, output);
         System.out.print("\n I think I just ran the model");
 
         final ArrayList<Result> results = new ArrayList<>();
-        /*for (int i = 0; i < labels.size(); i++) {
+        for (int i = 0; i < labels.size(); i++) {
             results.add(new Result("" + i, labels.get(i), output[0][i]));
-        }*/
+        }
 
         bssidL.clear();
         rssiL.clear();
         dicList.clear();
         input.clear();
         myLoc.clear();
+
+        System.out.print(results);
 
         return results;
     }
