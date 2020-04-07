@@ -236,11 +236,11 @@ public class  indoorLocatorClient {
     public synchronized List<Result> locate(List<String> bssidlists, List<String> rssiValues){
         //get data
         System.out.print("I am in the locate method");
-        List bssidL, rssiL, dicList, input, myLoc, sortedDicList;
+        List bssidL, rssiL, dicList, myLoc, sortedDicList;
         bssidL = new ArrayList();
         rssiL = new ArrayList();
         dicList = new ArrayList();
-        input = new ArrayList();
+        List <Integer> input = new ArrayList<>();
         myLoc = new ArrayList();
         sortedDicList = new ArrayList();
 
@@ -282,15 +282,28 @@ public class  indoorLocatorClient {
         // Run inference.
         System.out.print(input);
         Log.v(TAG, "Locating with TF Lite...");
-        float[][] output = new float[1][labels.size()];
+        int size = dicList.size();
+        int [] correctInput = new int[size];
+
+        //gad is variable name for rssi value that are stored in the "input" array list.
+        //Here we are converting to int array as the tflite only accepts int data type.
+        for (int i=0; i<dicList.size(); i++){
+            int gad = input.get(i).intValue();
+            System.out.print(gad);
+            correctInput[i]= gad;
+        }
+
+        //setup the output
+        float[][] output = new float[0][labels.size()];
         System.out.print("I am in the locate method");
-        tflite.run(input, output);
+        //run the model
+        tflite.run(correctInput, output);
         System.out.print("\n I think I just ran the model");
 
         final ArrayList<Result> results = new ArrayList<>();
-        for (int i = 0; i < labels.size(); i++) {
+        /*for (int i = 0; i < labels.size(); i++) {
             results.add(new Result("" + i, labels.get(i), output[0][i]));
-        }
+        }*/
 
         bssidL.clear();
         rssiL.clear();
