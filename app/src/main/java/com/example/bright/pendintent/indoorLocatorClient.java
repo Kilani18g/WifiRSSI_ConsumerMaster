@@ -156,7 +156,7 @@ public class  indoorLocatorClient {
             }
 
             if (x != null) {
-                resultString += String.format("%f", x);
+                resultString += String.format("%f", x/10);
             }
 
             System.out.print("this is my result: "+ resultString + "\n");
