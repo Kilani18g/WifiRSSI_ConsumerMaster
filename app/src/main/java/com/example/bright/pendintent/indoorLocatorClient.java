@@ -38,6 +38,7 @@ import java.io.BufferedReader;
 import android.util.Log;
 
 
+
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
@@ -155,7 +156,7 @@ public class  indoorLocatorClient {
             }
 
             if (x != null) {
-                resultString += String.format("(%.1f%%) ", x);
+                resultString += String.format("%f", x);
             }
 
             System.out.print("this is my result: "+ resultString + "\n");
@@ -183,6 +184,7 @@ public class  indoorLocatorClient {
             ByteBuffer buffer = loadModelFile(this.context.getAssets());
             tflite = new Interpreter(buffer);
             Log.v(TAG, "TFLite model loaded.");
+            System.out.print(buffer + " this is my buffer");
         } catch (IOException ex) {
             Log.e(TAG, ex.getMessage());
         }
@@ -279,17 +281,24 @@ public class  indoorLocatorClient {
         //Here we are converting to int array as the tflite only accepts int data type.
         for (int i=0; i<dicList.size(); i++){
             float gad = (input.get(i)).floatValue();
-            System.out.print(gad);
             correctInput[0][i]= gad;
             //System.out.print(Arrays.toString(correctInput));
         }
-        System.out.print("\n"+Arrays.toString(correctInput)+"\n");
+        //System.out.print("\n"+Arrays.toString(correctInput)+"\n");
         //setup the output
         float[][] output = new float[1][labels.size()];
-        System.out.print("I am in the locate method");
+        //System.out.print("I am in the locate method");
         //run the model
         tflite.run(correctInput, output);
-        System.out.print("\n I think I just ran the model");
+        //System.out.print("\n I think I just ran the model");
+
+
+
+        System.out.print("\n"+correctInput+"\n");
+
+        System.out.print("\n"+tflite.getInputTensor(0)+"\n");
+
+        System.out.print("\nI hope this is: \n  " + tflite.getOutputTensor(0) +"\n");
 
         final ArrayList<Result> results = new ArrayList<>();
         for (int i = 0; i < labels.size(); i++) {
@@ -309,7 +318,7 @@ public class  indoorLocatorClient {
         myLoc.clear();
         //tflite.getOutputIndex()
         //tflite.getOutputTensor(3);
-        System.out.print("\n"+output+"This is my output\n ");
+        //System.out.print("\n"+output+"This is my output\n ");
 
         System.out.print(results);
 
