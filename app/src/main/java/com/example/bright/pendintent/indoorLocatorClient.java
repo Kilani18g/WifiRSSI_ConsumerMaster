@@ -274,7 +274,7 @@ public class  indoorLocatorClient {
         System.out.print(input);
         Log.v(TAG, "Locating with TF Lite...");
         float[][] correctInput = new float[1][dicList.size()];
-        System.out.print("\n"+dicList.size()+"nigga \n");
+        System.out.print("\n"+dicList.size()+ "\n");
         //gad is variable name for rssi value that are stored in the "input" array list.
         //Here we are converting to int array as the tflite only accepts int data type.
         for (int i=0; i<dicList.size(); i++){
@@ -307,6 +307,8 @@ public class  indoorLocatorClient {
         dicList.clear();
         input.clear();
         myLoc.clear();
+        //tflite.getOutputIndex()
+        //tflite.getOutputTensor(3);
         System.out.print("\n"+output+"This is my output\n ");
 
         System.out.print(results);
