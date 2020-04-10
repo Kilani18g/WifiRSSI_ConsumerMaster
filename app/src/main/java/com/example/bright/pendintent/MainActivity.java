@@ -48,10 +48,13 @@ import android.net.Uri;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.util.Map;
-
+import java.util.Timer;
+import java.util.TimerTask;
+import java.util.concurrent.Executor;
+import java.util.concurrent.Executors;
+import java.util.concurrent.ScheduledExecutorService;
 import org.tensorflow.lite.Interpreter;
 import static android.net.wifi.WifiManager.*;
-
 
 
 public class MainActivity extends AppCompatActivity {
@@ -63,12 +66,16 @@ public class MainActivity extends AppCompatActivity {
     String xcoordinate, ycoordinate, outPut,modelPrediciton;
     TextView textView;
 
+
+
     private static final String TAG = "indoorLocatorDemo";
     private indoorLocatorClient client;
 
     private TextView resultTextView;
     private EditText inputEditText;
     private Handler handler;
+    private Handler handler1;
+
 
 
     @Override
@@ -89,43 +96,25 @@ public class MainActivity extends AppCompatActivity {
         macAddress = new ArrayList();
         outPut = "";
         modelInput = new ArrayList();
+
+
         int k = 0;
 
         Log.v(TAG, "onCreate");
         client = new indoorLocatorClient(getApplicationContext());
         handler = new Handler();
-        Button predictButton = findViewById(R.id.button);
+        handler1 = new Handler();
+        //Button predictButton = findViewById(R.id.button);
 
-        /*predictButton.setOnClickListener(
-                (View v) -> {
-                    doProcess(null);
-                    System.out.print(macAddress);
-                    //client.locate(macAddress,rSsi);
-                    resultTextView = findViewById(R.id.textView);
-                });*/
-
-        /*predictButton.setOnClickListener(new View.OnClickListener() {
-            public void onClick(View v) {
-                boolean b = ((WifiManager) getSystemService(WIFI_SERVICE)).startScan();
-                List<ScanResult> scanResultList = wifiManager.getScanResults();
-                for (int i = 0; i < scanResultList.size(); i++) {
-                    if (scanResultList.get(i).frequency < 2600) {
-                        macAddress.add(scanResultList.get(i).BSSID + "\n");
-                        rSsi.add(scanResultList.get(i).level + "\n");
-                    }
-                }
-                System.out.print(macAddress);
-                client.locate(macAddress,rSsi);
-                resultTextView = findViewById(R.id.textView);
-            }
-        });*/
-
-
-        //resultTextView = findViewById(R.id.textView);
     }
+
     static Map<String, List> apNamebssid = new HashMap<String, List>();
     static Map<String, List<Integer>> bSsidrssi = new HashMap<String, List<Integer>>();
     static StringBuilder data = new StringBuilder();
+
+
+
+
 
     public void doProcess(View view) {
         if (scannedResult.size() > 0) {
@@ -185,7 +174,7 @@ public class MainActivity extends AppCompatActivity {
             }
         } else {
             if (wifiManager.isWifiEnabled()) {
-                Toast.makeText(getApplicationContext(), "Scan Is Done!!", Toast.LENGTH_SHORT).show();
+                //Toast.makeText(getApplicationContext(), "Scan Is Done!!", Toast.LENGTH_SHORT).show();
                 new AsyncTask<Void, String, String>() {
                     @Override
                     protected String doInBackground(Void... voids) {
@@ -300,7 +289,8 @@ public class MainActivity extends AppCompatActivity {
 
                     @Override
                     protected void onPostExecute(String s) {
-                        textView.setText(s);
+                        //textView.setText(s);
+                        textView.setText("");
                     }
                 }.execute();
             }
@@ -308,9 +298,7 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
-
-
-
+    int delay = 500; //millisecond
 
 
     @Override
@@ -321,7 +309,16 @@ public class MainActivity extends AppCompatActivity {
                 () -> {
                     client.load();
                 });
+
+        //automating the process
+        handler1.postDelayed(new Runnable(){
+            public void run(){
+                doProcess(null);
+                handler1.postDelayed(this,delay);
+            }
+        },delay);
     }
+
 
     @Override
     protected void onStop() {
@@ -333,40 +330,6 @@ public class MainActivity extends AppCompatActivity {
                 });
     }
 
-    /*private void classify(final String text) {
-        handler.post(
-                () -> {
-                    // Run text classification with TF Lite.
-                    List<Result> results = client.locate(macAddress,rSsi);
-
-                    // Show classification result on screen
-                    showResult(macAddress, results);
-                });
-    }
-
-    /** Show classification result on the screen. */
-    /*private void showResult(final String inputText, final List<Result> results) {
-        // Run on UI thread as we'll updating our app UI
-        runOnUiThread(
-                () -> {
-                    String textToShow = "Input: " + inputText + "\nOutput:\n";
-                    for (int i = 0; i < results.size(); i++) {
-                        Result result = results.get(i);
-                        textToShow +=
-                                String.format("    %s: %s\n", result.getTitle(), result.getConfidence());
-                    }
-                    textToShow += "---------\n";
-
-                    // Append the result to the UI.
-                    resultTextView.append(textToShow);
-
-                    // Clear the input text.
-                    inputEditText.getText().clear();
-
-                    // Scroll to the bottom to show latest entry's classification result.
-                    scrollView.post(() -> scrollView.fullScroll(View.FOCUS_DOWN));
-                });
-    }*/
 }
 
 

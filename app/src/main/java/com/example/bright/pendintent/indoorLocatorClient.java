@@ -303,12 +303,15 @@ public class  indoorLocatorClient {
         final ArrayList<Result> results = new ArrayList<>();
         for (int i = 0; i < labels.size(); i++) {
             results.add(new Result("" + i, labels.get(i), output[0][i]));
+            System.out.print("lol\n"+output[0][i]+"\nlol");
         }
 
         /*final ArrayList<String> outCome = new ArrayList<>();
         for (int i = 0; i < labels.size(); i++) {
             results.add(labels.get(i).toString(), output[0][i]);
         }*/
+
+
 
 
         bssidL.clear();
