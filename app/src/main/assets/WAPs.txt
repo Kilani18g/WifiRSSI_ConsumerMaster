@@ -29,4 +29,3 @@ ALI,7c:11:cb:e5:aa:44,WAP27
 ,96:3b:ad:a9:04:6c,WAP28
 Kilani,b0:4e:26:4b:20:c7,WAP29
 Mindi,cc:2d:21:1e:94:20,WAP30
-}
